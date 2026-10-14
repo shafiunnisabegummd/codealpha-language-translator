@@ -187,3 +187,4 @@ app.post("/api/faq", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Backend running at http://localhost:${PORT}`);
 });
+

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Translation from "./components/Translation";
+import FAQChatbot from "./components/FAQChatbot";
 import "./App.css";
 
 export default function App() {
@@ -10,6 +11,8 @@ export default function App() {
       return false;
     }
   });
+
+  const [activeTask, setActiveTask] = useState("translation");
 
   function toggleDarkMode(value) {
     setDarkMode(value);
@@ -29,16 +32,36 @@ export default function App() {
         <p>Artificial Intelligence Internship</p>
       </header>
 
+      <nav className="task-navigation">
+        <button
+          className={activeTask === "translation" ? "active" : ""}
+          onClick={() => setActiveTask("translation")}
+        >
+          🌐 Language Translator
+        </button>
+
+        <button
+          className={activeTask === "faq" ? "active" : ""}
+          onClick={() => setActiveTask("faq")}
+        >
+          🤖 FAQ Chatbot
+        </button>
+      </nav>
+
       <main className="content">
-        <Translation
-          darkMode={darkMode}
-          setDarkMode={toggleDarkMode}
-        />
+        {activeTask === "translation" && (
+          <Translation
+            darkMode={darkMode}
+            setDarkMode={toggleDarkMode}
+          />
+        )}
+
+        {activeTask === "faq" && <FAQChatbot />}
       </main>
 
       <footer>
         <p>Built for CodeAlpha AI Internship</p>
-        <span>Language Translator · Powered by MyMemory</span>
+        <span>Language Translator · FAQ Chatbot</span>
       </footer>
     </div>
   );
