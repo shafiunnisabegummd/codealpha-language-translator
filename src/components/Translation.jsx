@@ -17,7 +17,7 @@ export default function Translation({ darkMode, setDarkMode }) {
   const [result, setResult] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [translatedText,setTranslatedText] = useState("");
   const [history, setHistory] = useState(() => {
     try {
       return JSON.parse(
@@ -69,25 +69,22 @@ export default function Translation({ darkMode, setDarkMode }) {
         langpair: `${source}|${target}`,
       });
 
-      const response = await fetch(
-        `https://api.mymemory.translated.net/get?${params.toString()}`
-      );
+      const url =
+  `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodeURIComponent(text)}`;
 
-      if (!response.ok) {
-        throw new Error("Translation service unavailable. Try again.");
-      }
+const response = await fetch(url);
 
-      const data = await response.json();
-      const translated = data?.responseData?.translatedText;
+if (!response.ok) {
+  throw new Error("Translation service unavailable");
+}
 
-      if (!translated || Number(data.responseStatus) !== 200) {
-        throw new Error(
-          data.responseDetails || "Translation failed. Please try again."
-        );
-      }
+const data = await response.json();
 
-      setResult(translated);
+const translated = data[0]
+  .map((item) => item[0])
+  .join("");
 
+setTranslation(translated);
       const entry = {
         id: `${Date.now()}-${Math.random()}`,
         text,
