@@ -84,7 +84,7 @@ const translated = data[0]
   .map((item) => item[0])
   .join("");
 
-setTranslation(translated);
+setTranslatedText(translated);
       const entry = {
         id: `${Date.now()}-${Math.random()}`,
         text,
